@@ -1,10 +1,12 @@
 import bodyParser from "body-parser";
 import mongoose, {connect} from "mongoose";
+const dotenv = require("dotenv");
+dotenv.config({ path: ".env" });
 
-mongoose.connect('mongodb+srv://develop:v4t5WdkqCxfBNVEK@dev.zl5jzpy.mongodb.net/goz', { useNewUrlParser: true })
+mongoose.connect(`${process.env.DATABASE_URL}`, { useNewUrlParser: true })
 
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 try{
   connect.on('open', () => {
