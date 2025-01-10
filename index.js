@@ -1,6 +1,9 @@
 import bodyParser from "body-parser";
-import mongoose, {connect} from "mongoose";
-const dotenv = require("dotenv");
+import mongoose from "mongoose";
+import express from "express";
+import dotenv from "dotenv";
+import userRouter from "./src/routes/userRoutes.js";
+
 dotenv.config({ path: ".env" });
 
 mongoose.connect(`${process.env.DATABASE_URL}`, { useNewUrlParser: true })
@@ -9,7 +12,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 try{
-  connect.on('open', () => {
+  mongoose.connection.on('open', () => {
     console.log("Connected to mongodb!");
   })
 
@@ -18,6 +21,7 @@ try{
 }
 
 app.use(bodyParser.json());
+app.use("/users", userRouter);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
